@@ -46,9 +46,9 @@ function EmptyState({ onSuggestion }: { onSuggestion: (q: string) => void }) {
       </div>
       <div className="mt-2 flex flex-wrap gap-2 justify-center">
         {[
-          "How do I reset my password?",
-          "What's your refund policy?",
-          "How do I upgrade my plan?",
+          "How many PTO days do I get per year?",
+          "How do I set up the VPN on my Mac?",
+          "What's the process for requesting new equipment?",
         ].map((q) => (
           <button
             key={q}
