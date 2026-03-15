@@ -34,3 +34,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local env and database
+.env.local
+*.db
+*.db-journal
+chromadb-data/
