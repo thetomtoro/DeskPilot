@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react"
 import { PlusCircle, Trash2, MessageSquare } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 
 export interface Conversation {

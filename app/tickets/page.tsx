@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react"
 import { Ticket, ChevronDown, ChevronUp, Loader2, CheckCircle2 } from "lucide-react"
 import { toast } from "sonner"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"

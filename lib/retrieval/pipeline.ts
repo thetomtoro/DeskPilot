@@ -1,4 +1,4 @@
-import { search, SearchResult } from "./vectorStore";
+import { search } from "./vectorStore";
 import { rerank } from "@/lib/ai/reranker";
 
 export interface RetrievalResult {

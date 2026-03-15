@@ -3,9 +3,8 @@
 import { useCallback, useEffect, useState } from "react"
 import { FlaskConical, Play, Loader2, ChevronDown, ChevronRight, CheckCircle2, XCircle, Clock } from "lucide-react"
 import { toast } from "sonner"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
 
 function fmtDate(dateStr: string): string {
@@ -258,7 +257,7 @@ export default function EvalPage() {
           <div className="text-center">
             <p className="text-slate-300 font-medium">No evaluation runs yet</p>
             <p className="text-sm text-slate-500 mt-1">
-              Click "Run Evaluation" to benchmark the RAG pipeline against the golden dataset.
+              Click &quot;Run Evaluation&quot; to benchmark the RAG pipeline against the golden dataset.
             </p>
           </div>
         </div>

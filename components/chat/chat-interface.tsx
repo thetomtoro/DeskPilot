@@ -4,9 +4,7 @@ import { useEffect, useRef, useState, useCallback } from "react"
 import { Send, Bot, Loader2 } from "lucide-react"
 import { toast } from "sonner"
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import { ScrollArea } from "@/components/ui/scroll-area"
 import { Skeleton } from "@/components/ui/skeleton"
 import { MessageBubble, type Message } from "./message-bubble"
 import { ConversationSidebar } from "./conversation-sidebar"
@@ -42,7 +40,7 @@ function EmptyState({ onSuggestion }: { onSuggestion: (q: string) => void }) {
       <div>
         <h2 className="text-lg font-semibold text-slate-200">DeskPilot AI</h2>
         <p className="mt-1.5 text-sm text-slate-500 max-w-sm">
-          Ask me anything about our products, billing, or account settings. I'll
+          Ask me anything about our products, billing, or account settings. I&apos;ll
           search the knowledge base and give you a sourced answer.
         </p>
       </div>
@@ -207,7 +205,7 @@ export function ChatInterface() {
     } catch {
       toast.error("Failed to create ticket")
     }
-  }, [messages, conversationId])
+  }, [messages])
 
   return (
     <div className="flex flex-1 min-h-0 overflow-hidden">

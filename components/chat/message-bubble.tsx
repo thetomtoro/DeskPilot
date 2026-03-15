@@ -3,8 +3,6 @@
 import { useState } from "react"
 import { AlertCircle, ThumbsDown, BookOpen } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 
 export interface Source {
   title: string
@@ -190,7 +188,7 @@ export function MessageBubble({ message, onTicketCreate }: MessageBubbleProps) {
               className="flex items-center gap-1 text-xs text-slate-500 hover:text-slate-300 transition-colors"
             >
               <ThumbsDown size={12} />
-              This didn't help
+              This didn&apos;t help
             </button>
           )}
         </div>

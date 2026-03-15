@@ -11,7 +11,7 @@ function createPrismaClient() {
     : path.resolve(process.cwd(), dbPath);
 
   const adapter = new PrismaBetterSqlite3({ url: absolutePath });
-  return new PrismaClient({ adapter } as any);
+  return new PrismaClient({ adapter } as { adapter: PrismaBetterSqlite3 });
 }
 
 const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };

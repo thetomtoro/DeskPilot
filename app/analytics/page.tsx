@@ -1,7 +1,7 @@
 "use client"
 
 import { useCallback, useEffect, useState } from "react"
-import { BarChart3, MessageSquare, Ticket, CheckCircle2, Loader2, Zap, Clock } from "lucide-react"
+import { BarChart3, MessageSquare, Ticket, CheckCircle2, Zap, Clock } from "lucide-react"
 import { toast } from "sonner"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
