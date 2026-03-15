@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { writeFileSync } from "fs";
+import { writeFileSync, mkdirSync } from "fs";
 import path from "path";
 import { ingestDocument } from "@/lib/retrieval/ingest";
 import { prisma } from "@/lib/db";
@@ -35,6 +35,7 @@ export async function POST(req: NextRequest) {
 
     // 4. Write file to knowledge/ directory
     const filePath = path.join(KNOWLEDGE_DIR, sanitized);
+    mkdirSync(KNOWLEDGE_DIR, { recursive: true });
     const buffer = await file.arrayBuffer();
     writeFileSync(filePath, Buffer.from(buffer));
 

@@ -33,7 +33,7 @@ function ThinkingIndicator() {
   )
 }
 
-function EmptyState() {
+function EmptyState({ onSuggestion }: { onSuggestion: (q: string) => void }) {
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-4 text-center px-6">
       <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-blue-600/10 border border-blue-600/20">
@@ -54,6 +54,7 @@ function EmptyState() {
         ].map((q) => (
           <button
             key={q}
+            onClick={() => onSuggestion(q)}
             className="rounded-full border border-slate-700 px-3 py-1.5 text-xs text-slate-400 hover:text-slate-200 hover:border-slate-600 transition-colors"
           >
             {q}
@@ -94,7 +95,7 @@ export function ChatInterface() {
       const res = await fetch(`/api/conversations/${id}`)
       if (res.ok) {
         const data = await res.json()
-        const msgs: Message[] = (data.messages ?? []).map((m: Record<string, unknown>) => ({
+        const msgs: Message[] = (data.conversation?.messages ?? []).map((m: Record<string, unknown>) => ({
           id: m.id as string,
           role: m.role as "user" | "assistant",
           content: m.content as string,
@@ -172,6 +173,11 @@ export function ChatInterface() {
     }
   }, [input, loading, conversationId])
 
+  const handleSuggestion = useCallback((q: string) => {
+    setInput(q)
+    textareaRef.current?.focus()
+  }, [])
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault()
@@ -190,9 +196,9 @@ export function ChatInterface() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          title: `User feedback: response wasn't helpful`,
-          description: userMsg?.content ?? "User indicated the response didn't help.",
-          conversationId,
+          question: userMsg?.content ?? "User indicated the response didn't help.",
+          aiAnswer: msg?.content,
+          confidence: msg?.confidence ?? 0,
         }),
       })
       toast.success("Support ticket created", {
@@ -230,7 +236,7 @@ export function ChatInterface() {
               ))}
             </div>
           ) : messages.length === 0 && !loading ? (
-            <EmptyState />
+            <EmptyState onSuggestion={handleSuggestion} />
           ) : (
             <div className="p-6 space-y-4 max-w-3xl mx-auto w-full">
               {messages.map((msg) => (

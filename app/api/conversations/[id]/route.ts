@@ -1,6 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 
+export async function DELETE(
+  _req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const { id } = params;
+  await prisma.conversation.delete({ where: { id } });
+  return NextResponse.json({ success: true });
+}
+
 export async function GET(
   _req: NextRequest,
   { params }: { params: { id: string } }

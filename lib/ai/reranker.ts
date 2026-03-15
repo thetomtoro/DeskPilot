@@ -25,6 +25,9 @@ Scoring guide:
   let scores: number[];
   try {
     scores = JSON.parse(result);
+    if (!Array.isArray(scores) || scores.length !== candidates.length) {
+      scores = candidates.map((_, i) => 10 - i);
+    }
   } catch {
     scores = candidates.map((_, i) => 10 - i);
   }

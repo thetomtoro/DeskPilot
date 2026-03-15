@@ -1,4 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
+import { validateEnv } from "@/lib/env";
+
+validateEnv();
 
 const anthropic = new Anthropic();
 
