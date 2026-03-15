@@ -68,7 +68,7 @@ Every response includes the confidence score, source documents cited, end-to-end
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/tommyong/deskpilot.git
+git clone https://github.com/thetomtoro/DeskPilot.git
 cd deskpilot
 
 # 2. Install dependencies
@@ -237,4 +237,4 @@ A production deployment of this system would involve the following changes:
 
 ## Built By
 
-Tommy Ong — [GitHub](https://github.com/tommyong)
+Tommy Ong — [GitHub](https://github.com/thetomtoro)
