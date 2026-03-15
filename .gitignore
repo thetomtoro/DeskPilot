@@ -40,3 +40,5 @@ next-env.d.ts
 *.db
 *.db-journal
 chromadb-data/
+
+/lib/generated/prisma
