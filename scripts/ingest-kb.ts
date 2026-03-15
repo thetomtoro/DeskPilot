@@ -1,3 +1,6 @@
+import { config } from "dotenv";
+config({ path: ".env.local" });
+
 import { ingestKnowledgeDirectory } from "../lib/retrieval/ingest";
 import path from "path";
 
