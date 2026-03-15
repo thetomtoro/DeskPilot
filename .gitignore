@@ -36,6 +36,7 @@ yarn-error.log*
 next-env.d.ts
 
 # local env and database
+.env
 .env.local
 *.db
 *.db-journal

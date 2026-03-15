@@ -1,29 +1,6 @@
-import { ChromaClient, Collection } from "chromadb";
 import { Chunk } from "./chunker";
 import { embedTexts, embedQuery } from "./embedder";
-
-const COLLECTION_NAME = "deskpilot-kb";
-
-// ChromaDB v3 JS client connects to a local Chroma server.
-// Start one with: npx chroma run --path ./chromadb-data
-// The server persists data at the given path between restarts.
-
-let client: ChromaClient;
-let collection: Collection;
-
-async function getCollection(): Promise<Collection> {
-  if (collection) return collection;
-  // Default connects to http://localhost:8000
-  client = new ChromaClient();
-  // Configure cosine distance via the hnsw configuration (v3 API)
-  collection = await client.getOrCreateCollection({
-    name: COLLECTION_NAME,
-    configuration: {
-      hnsw: { space: "cosine" },
-    },
-  });
-  return collection;
-}
+import embeddingsData from "./embeddings.json";
 
 export interface SearchResult {
   id: string;
@@ -33,68 +10,66 @@ export interface SearchResult {
   score: number;
 }
 
-export async function addChunks(chunks: Chunk[]): Promise<void> {
-  const col = await getCollection();
-  const embeddings = await embedTexts(chunks.map((c) => c.text));
+interface StoredChunk {
+  id: string;
+  text: string;
+  embedding: number[];
+  metadata: { source: string; section: string; chunkIndex: number };
+}
 
-  const batchSize = 100;
-  for (let i = 0; i < chunks.length; i += batchSize) {
-    const batch = chunks.slice(i, i + batchSize);
-    const batchEmbeddings = embeddings.slice(i, i + batchSize);
-    await col.add({
-      ids: batch.map((c) => c.id),
-      documents: batch.map((c) => c.text),
-      embeddings: batchEmbeddings,
-      metadatas: batch.map((c) => ({
-        source: c.metadata.source,
-        section: c.metadata.section,
-        chunkIndex: c.metadata.chunkIndex,
-      })),
+// In-memory vector store — pre-baked embeddings loaded from JSON.
+// For 69 chunks (~2MB) this is fast and works on serverless (Vercel).
+let chunks: StoredChunk[] = embeddingsData as StoredChunk[];
+
+function cosineSimilarity(a: number[], b: number[]): number {
+  let dot = 0, magA = 0, magB = 0;
+  for (let i = 0; i < a.length; i++) {
+    dot += a[i] * b[i];
+    magA += a[i] * a[i];
+    magB += b[i] * b[i];
+  }
+  return dot / (Math.sqrt(magA) * Math.sqrt(magB));
+}
+
+export async function addChunks(newChunks: Chunk[]): Promise<void> {
+  const embeddings = await embedTexts(newChunks.map(c => c.text));
+  for (let i = 0; i < newChunks.length; i++) {
+    chunks.push({
+      id: newChunks[i].id,
+      text: newChunks[i].text,
+      embedding: embeddings[i],
+      metadata: {
+        source: newChunks[i].metadata.source,
+        section: newChunks[i].metadata.section,
+        chunkIndex: newChunks[i].metadata.chunkIndex,
+      },
     });
   }
 }
 
 export async function removeBySource(source: string): Promise<void> {
-  const col = await getCollection();
-  // In v3, get() returns a GetResult with .ids as string[]
-  const existing = await col.get({
-    where: { source } as Record<string, string>,
-  });
-  if (existing.ids.length > 0) {
-    await col.delete({ ids: existing.ids });
-  }
+  chunks = chunks.filter(c => c.metadata.source !== source);
 }
 
-export async function search(
-  query: string,
-  topK: number = 10
-): Promise<SearchResult[]> {
-  const col = await getCollection();
+export async function search(query: string, topK: number = 10): Promise<SearchResult[]> {
   const queryEmbedding = await embedQuery(query);
 
-  // In v3, query() returns QueryResult with .ids as string[][], .distances as (number | null)[][]
-  const results = await col.query({
-    queryEmbeddings: [queryEmbedding],
-    nResults: topK,
-  });
+  const scored = chunks.map(chunk => ({
+    ...chunk,
+    score: cosineSimilarity(queryEmbedding, chunk.embedding),
+  }));
 
-  if (!results.ids[0]) return [];
+  scored.sort((a, b) => b.score - a.score);
 
-  return results.ids[0].map((id, i) => ({
-    id,
-    text: results.documents[0]?.[i] ?? "",
-    source:
-      (results.metadatas[0]?.[i] as Record<string, string> | null)?.source ??
-      "",
-    section:
-      (results.metadatas[0]?.[i] as Record<string, string> | null)?.section ??
-      "",
-    // distances are cosine distances [0,2]; convert to similarity score [0,1]
-    score: 1 - (results.distances?.[0]?.[i] ?? 1),
+  return scored.slice(0, topK).map(c => ({
+    id: c.id,
+    text: c.text,
+    source: c.metadata.source,
+    section: c.metadata.section,
+    score: c.score,
   }));
 }
 
 export async function getCollectionCount(): Promise<number> {
-  const col = await getCollection();
-  return await col.count();
+  return chunks.length;
 }
