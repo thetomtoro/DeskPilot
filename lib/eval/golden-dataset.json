@@ -1,0 +1,242 @@
+[
+  {
+    "id": "hr-001",
+    "question": "How many PTO days do I get per year?",
+    "expected_answer_contains": ["15 days", "0–3 years"],
+    "expected_source": "pto-policy.md",
+    "category": "hr",
+    "difficulty": "easy"
+  },
+  {
+    "id": "hr-002",
+    "question": "How does PTO accrue each month?",
+    "expected_answer_contains": ["1.25 days per month", "Workday"],
+    "expected_source": "pto-policy.md",
+    "category": "hr",
+    "difficulty": "easy"
+  },
+  {
+    "id": "hr-003",
+    "question": "How much PTO can I roll over to next year?",
+    "expected_answer_contains": ["5 unused PTO days", "December 31"],
+    "expected_source": "pto-policy.md",
+    "category": "hr",
+    "difficulty": "easy"
+  },
+  {
+    "id": "hr-004",
+    "question": "How do I request time off in Workday?",
+    "expected_answer_contains": ["Time Off > Request", "manager approval"],
+    "expected_source": "pto-policy.md",
+    "category": "hr",
+    "difficulty": "medium"
+  },
+  {
+    "id": "hr-005",
+    "question": "How much notice do I need to give for a week-long vacation?",
+    "expected_answer_contains": ["minimum 2 weeks advance notice", "3 or more consecutive days"],
+    "expected_source": "pto-policy.md",
+    "category": "hr",
+    "difficulty": "medium"
+  },
+  {
+    "id": "hr-006",
+    "question": "What is the sick leave policy and how many days do I get?",
+    "expected_answer_contains": ["10 days per year", "separate bank"],
+    "expected_source": "pto-policy.md",
+    "category": "hr",
+    "difficulty": "medium"
+  },
+  {
+    "id": "hr-007",
+    "question": "How do I submit an expense report?",
+    "expected_answer_contains": ["Expensify", "expensify.acmecorp.com"],
+    "expected_source": "expense-reimbursement.md",
+    "category": "hr",
+    "difficulty": "easy"
+  },
+  {
+    "id": "hr-008",
+    "question": "What is the daily meal allowance when traveling for work?",
+    "expected_answer_contains": ["$75/day", "breakfast $15", "dinner $40"],
+    "expected_source": "expense-reimbursement.md",
+    "category": "hr",
+    "difficulty": "medium"
+  },
+  {
+    "id": "hr-009",
+    "question": "Who needs to approve an expense report totaling $1,200?",
+    "expected_answer_contains": ["direct manager", "department VP"],
+    "expected_source": "expense-reimbursement.md",
+    "category": "hr",
+    "difficulty": "hard"
+  },
+  {
+    "id": "hr-010",
+    "question": "If I took 12 days off in December for a vacation but only have 5 rollover days, what happens to the extra PTO balance and when does the forfeit occur? Also, can I expense alcohol at the team dinner?",
+    "expected_answer_contains": ["forfeited on December 31", "alcohol", "not reimbursable"],
+    "expected_source": "pto-policy.md",
+    "category": "hr",
+    "difficulty": "hard"
+  },
+  {
+    "id": "it-001",
+    "question": "What VPN client does Acme Corp use?",
+    "expected_answer_contains": ["GlobalProtect", "Palo Alto"],
+    "expected_source": "vpn-setup.md",
+    "category": "it",
+    "difficulty": "easy"
+  },
+  {
+    "id": "it-002",
+    "question": "What is the VPN portal address?",
+    "expected_answer_contains": ["vpn.acmecorp.com"],
+    "expected_source": "vpn-setup.md",
+    "category": "it",
+    "difficulty": "easy"
+  },
+  {
+    "id": "it-003",
+    "question": "What laptop do new hires receive?",
+    "expected_answer_contains": ["MacBook Pro", "Dell XPS 15"],
+    "expected_source": "equipment-request.md",
+    "category": "it",
+    "difficulty": "easy"
+  },
+  {
+    "id": "it-004",
+    "question": "How do I install VPN on macOS?",
+    "expected_answer_contains": ["vpn.acmecorp.com", "GlobalProtect", "SSO credentials"],
+    "expected_source": "vpn-setup.md",
+    "category": "it",
+    "difficulty": "medium"
+  },
+  {
+    "id": "it-005",
+    "question": "How do I request additional software not in the standard list?",
+    "expected_answer_contains": ["service.acmecorp.com", "Software & Access > New Software Request", "manager approves"],
+    "expected_source": "software-access.md",
+    "category": "it",
+    "difficulty": "medium"
+  },
+  {
+    "id": "it-006",
+    "question": "How long does it take IT to fulfill an equipment request after approval?",
+    "expected_answer_contains": ["5–10 business days"],
+    "expected_source": "equipment-request.md",
+    "category": "it",
+    "difficulty": "medium"
+  },
+  {
+    "id": "it-007",
+    "question": "What software do all employees get on Day 1?",
+    "expected_answer_contains": ["Slack", "Google Workspace", "Okta", "1Password"],
+    "expected_source": "software-access.md",
+    "category": "it",
+    "difficulty": "medium"
+  },
+  {
+    "id": "it-008",
+    "question": "My VPN keeps disconnecting. How do I troubleshoot it?",
+    "expected_answer_contains": ["UDP port 4501", "SSL-only mode", "Network Extensions"],
+    "expected_source": "vpn-setup.md",
+    "category": "it",
+    "difficulty": "hard"
+  },
+  {
+    "id": "it-009",
+    "question": "I need a software tool that costs $6,000 per year. What approvals are required?",
+    "expected_answer_contains": ["Manager + IT + VP/Finance", "over $5,000"],
+    "expected_source": "software-access.md",
+    "category": "it",
+    "difficulty": "hard"
+  },
+  {
+    "id": "it-010",
+    "question": "My laptop was stolen. What steps do I take, and what is the budget limit for a replacement laptop refresh?",
+    "expected_answer_contains": ["Lost/Stolen Device", "police report", "$1,500"],
+    "expected_source": "equipment-request.md",
+    "category": "it",
+    "difficulty": "hard"
+  },
+  {
+    "id": "onb-001",
+    "question": "What is the onboarding portal URL?",
+    "expected_answer_contains": ["onboarding.acmecorp.com"],
+    "expected_source": "onboarding-checklist.md",
+    "category": "onboarding",
+    "difficulty": "easy"
+  },
+  {
+    "id": "onb-002",
+    "question": "How long do I have to enroll in benefits after my start date?",
+    "expected_answer_contains": ["30 days", "health, dental, vision, 401k"],
+    "expected_source": "onboarding-checklist.md",
+    "category": "onboarding",
+    "difficulty": "easy"
+  },
+  {
+    "id": "onb-003",
+    "question": "What Slack channels should I join as a new employee?",
+    "expected_answer_contains": ["#general", "#announcements", "#new-hires"],
+    "expected_source": "onboarding-checklist.md",
+    "category": "onboarding",
+    "difficulty": "easy"
+  },
+  {
+    "id": "onb-004",
+    "question": "What required trainings must I complete in my first two weeks?",
+    "expected_answer_contains": ["Security Awareness Training", "Code of Conduct", "Harassment Prevention Training"],
+    "expected_source": "onboarding-checklist.md",
+    "category": "onboarding",
+    "difficulty": "medium"
+  },
+  {
+    "id": "onb-005",
+    "question": "What should I have accomplished by my 30-day milestone?",
+    "expected_answer_contains": ["compliance trainings", "first pull request", "30-day check-in"],
+    "expected_source": "onboarding-checklist.md",
+    "category": "onboarding",
+    "difficulty": "medium"
+  },
+  {
+    "id": "onb-006",
+    "question": "Who is my onboarding buddy and when do they contact me?",
+    "expected_answer_contains": ["assigned by your manager", "Day 1"],
+    "expected_source": "onboarding-checklist.md",
+    "category": "onboarding",
+    "difficulty": "medium"
+  },
+  {
+    "id": "onb-007",
+    "question": "What should I have done by 90 days at Acme Corp?",
+    "expected_answer_contains": ["OKRs", "90-day check-in", "ongoing responsibility"],
+    "expected_source": "onboarding-checklist.md",
+    "category": "onboarding",
+    "difficulty": "medium"
+  },
+  {
+    "id": "onb-008",
+    "question": "My VPN isn't working on my first day. What should I do?",
+    "expected_answer_contains": ["#it-helpdesk", "vpn-setup", "GlobalProtect"],
+    "expected_source": "onboarding-checklist.md",
+    "category": "onboarding",
+    "difficulty": "hard"
+  },
+  {
+    "id": "onb-009",
+    "question": "What do I need to set up on Day 1 before I can access internal systems?",
+    "expected_answer_contains": ["GlobalProtect VPN", "Okta", "MFA"],
+    "expected_source": "onboarding-checklist.md",
+    "category": "onboarding",
+    "difficulty": "hard"
+  },
+  {
+    "id": "onb-010",
+    "question": "I'm a new engineer starting this week. What tools should I expect access to on Day 1 and what are my Week 2 engineering-specific tasks?",
+    "expected_answer_contains": ["GitHub", "Jira", "codebase walkthrough", "good-first-ticket"],
+    "expected_source": "onboarding-checklist.md",
+    "category": "onboarding",
+    "difficulty": "hard"
+  }
+]
