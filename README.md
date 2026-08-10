@@ -2,11 +2,6 @@
 
 AI-powered helpdesk agent with RAG pipeline, evaluation framework, and ticket escalation.
 
-![Next.js](https://img.shields.io/badge/Next.js-14-black?style=flat-square&logo=next.js)
-![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?style=flat-square&logo=typescript)
-![Claude API](https://img.shields.io/badge/Claude-API-d4760e?style=flat-square)
-![ChromaDB](https://img.shields.io/badge/ChromaDB-3-f97316?style=flat-square)
-![Prisma](https://img.shields.io/badge/Prisma-7-2d3748?style=flat-square&logo=prisma)
 
 ---
 
@@ -43,7 +38,7 @@ AI-powered helpdesk agent with RAG pipeline, evaluation framework, and ticket es
                           └─────────────────────────────────────────────────────┘
 ```
 
-Every response includes the confidence score, source documents cited, end-to-end latency, and whether a ticket was created — all persisted to SQLite via Prisma for analytics and evaluation replay.
+Every response includes the confidence score, source documents cited, end-to-end latency, and whether a ticket was created - all persisted to SQLite via Prisma for analytics and evaluation replay.
 
 ---
 
@@ -104,7 +99,7 @@ The `npm run ingest` script reads all Markdown files from `./knowledge/`, chunks
 The primary interface. Users ask questions in natural language and receive answers grounded in the knowledge base. Each response displays the confidence score, cited source documents, and end-to-end latency. Conversations are persisted and accessible via a sidebar. Low-confidence answers automatically create escalation tickets.
 
 ### Knowledge Base (`/kb`)
-View all ingested documents with their chunk counts and ingestion dates. Upload new `.md` or `.txt` files via drag-and-drop or file picker — documents are chunked, embedded, and searchable within seconds.
+View all ingested documents with their chunk counts and ingestion dates. Upload new `.md` or `.txt` files via drag-and-drop or file picker - documents are chunked, embedded, and searchable within seconds.
 
 ### Tickets (`/tickets`)
 A lightweight queue for escalated questions. Tickets are created automatically when the confidence score drops below 0.6, or immediately when the user's intent is an action request (e.g., "I need access to Salesforce"). Agents can expand any ticket to view the original question, the AI's attempted answer, and add a resolution note.
@@ -119,11 +114,11 @@ Operational overview: total questions, AI resolution rate, average confidence, a
 
 ## How the RAG Pipeline Works
 
-When a question arrives, it first passes through an **intent classifier** — a lightweight Claude call that categorizes the message as a `question`, `action_request`, or `unclear`. Action requests bypass retrieval entirely and go straight to ticket creation. Unclear messages receive a clarification prompt. This routing step prevents the retrieval pipeline from being invoked for inputs it cannot meaningfully answer.
+When a question arrives, it first passes through an **intent classifier** - a lightweight Claude call that categorizes the message as a `question`, `action_request`, or `unclear`. Action requests bypass retrieval entirely and go straight to ticket creation. Unclear messages receive a clarification prompt. This routing step prevents the retrieval pipeline from being invoked for inputs it cannot meaningfully answer.
 
-For questions, the pipeline performs **two-stage retrieval**. First, it runs a vector similarity search against ChromaDB using an OpenAI `text-embedding-3-small` embedding of the query, fetching the top 10 candidate chunks. Those candidates are then passed to Claude in a single batch call for **LLM reranking** — Claude scores each chunk 0–10 for relevance and returns a JSON array of scores. Chunks scoring below 6 are dropped, and the top 3 survivors become the context window for generation. This reranking step is the primary lever for precision: vector similarity catches broad semantic matches, but Claude's reranker removes chunks that are topically adjacent but not actually responsive to the question.
+For questions, the pipeline performs **two-stage retrieval**. First, it runs a vector similarity search against ChromaDB using an OpenAI `text-embedding-3-small` embedding of the query, fetching the top 10 candidate chunks. Those candidates are then passed to Claude in a single batch call for **LLM reranking** - Claude scores each chunk 0–10 for relevance and returns a JSON array of scores. Chunks scoring below 6 are dropped, and the top 3 survivors become the context window for generation. This reranking step is the primary lever for precision: vector similarity catches broad semantic matches, but Claude's reranker removes chunks that are topically adjacent but not actually responsive to the question.
 
-After generation, a separate Claude call performs **groundedness assessment** — it reads the question, the generated answer, and the source chunks, then returns a score from 0.0 to 1.0 with a brief rationale. Scores below 0.6 trigger automatic ticket creation, with priority set to `high` if the score is below 0.3. This confidence gate operationalizes the core insight of production RAG systems: an answer the model is not confident in is worse than no answer, because it erodes user trust. By surfacing these cases to a human queue rather than returning them silently, the system degrades gracefully.
+After generation, a separate Claude call performs **groundedness assessment** - it reads the question, the generated answer, and the source chunks, then returns a score from 0.0 to 1.0 with a brief rationale. Scores below 0.6 trigger automatic ticket creation, with priority set to `high` if the score is below 0.3. This confidence gate operationalizes the core insight of production RAG systems: an answer the model is not confident in is worse than no answer, because it erodes user trust. By surfacing these cases to a human queue rather than returning them silently, the system degrades gracefully.
 
 ---
 
@@ -133,12 +128,12 @@ After generation, a separate Claude call performs **groundedness assessment** �
 
 `lib/eval/golden-dataset.json` contains 30 handcrafted test cases across three topic categories (HR, IT, Onboarding) and three difficulty levels (easy, medium, hard). Each case specifies:
 
-- `question` — the natural language query
-- `expected_answer_contains` — a list of phrases that must appear in a correct answer
-- `expected_source` — the knowledge base document the answer should be retrieved from
-- `category` and `difficulty` — for sliced reporting
+- `question` - the natural language query
+- `expected_answer_contains` - a list of phrases that must appear in a correct answer
+- `expected_source` - the knowledge base document the answer should be retrieved from
+- `category` and `difficulty` - for sliced reporting
 
-Hard cases include multi-part questions that require synthesizing information from separate sections of a document, or questions that combine policy details with edge cases (e.g., "I need a $6,000 software license — what approvals are required?").
+Hard cases include multi-part questions that require synthesizing information from separate sections of a document, or questions that combine policy details with edge cases (e.g., "I need a $6,000 software license - what approvals are required?").
 
 ### Metrics
 
@@ -155,7 +150,7 @@ Hard cases include multi-part questions that require synthesizing information fr
 
 ### Why It Matters
 
-Most demo RAG systems are evaluated by eye. This framework makes pipeline quality measurable and reproducible. The confidence calibration metric specifically tests whether the system's self-reported confidence is honest — a model that says 90% but is right only 60% of the time is worse than useless for automated escalation decisions. Historical eval runs are stored in the database, enabling regression testing: if a prompt change or chunking strategy change degrades retrieval recall, it shows up in the next eval run.
+Most demo RAG systems are evaluated by eye. This framework makes pipeline quality measurable and reproducible. The confidence calibration metric specifically tests whether the system's self-reported confidence is honest - a model that says 90% but is right only 60% of the time is worse than useless for automated escalation decisions. Historical eval runs are stored in the database, enabling regression testing: if a prompt change or chunking strategy change degrades retrieval recall, it shows up in the next eval run.
 
 ---
 
@@ -211,7 +206,7 @@ deskpilot/
 
 ## Design Decisions
 
-**ChromaDB local over a hosted vector store.** For a portfolio project, zero-setup matters — ChromaDB runs in-process with a single CLI command and no account required. More importantly, the vector store is fully abstracted behind `lib/retrieval/vectorStore.ts`, so swapping in Pinecone or Weaviate is a one-file change.
+**ChromaDB local over a hosted vector store.** For a portfolio project, zero-setup matters - ChromaDB runs in-process with a single CLI command and no account required. More importantly, the vector store is fully abstracted behind `lib/retrieval/vectorStore.ts`, so swapping in Pinecone or Weaviate is a one-file change.
 
 **SQLite via Prisma instead of raw SQLite or an in-memory store.** The goal was to demonstrate the same ORM patterns used with production Postgres. Prisma's schema, migrations, and query API are identical regardless of the underlying database. The `DATABASE_URL=file:./dev.db` line in `.env` is the only SQLite-specific detail.
 
@@ -225,16 +220,16 @@ deskpilot/
 
 A production deployment of this system would involve the following changes:
 
-- **Vector store:** Replace ChromaDB local with Pinecone, Weaviate, or Qdrant Cloud. The vector store interface in `lib/retrieval/vectorStore.ts` already abstracts `search()` and `upsert()` — swap the implementation, keep the interface.
+- **Vector store:** Replace ChromaDB local with Pinecone, Weaviate, or Qdrant Cloud. The vector store interface in `lib/retrieval/vectorStore.ts` already abstracts `search()` and `upsert()` - swap the implementation, keep the interface.
 - **Relational database:** Switch `DATABASE_URL` to a Postgres connection string. Prisma handles the migration without schema changes.
 - **Streaming responses:** The current implementation returns the full answer in a single response. Production UX benefits from streaming generation tokens with a progressively rendered confidence score once generation completes.
 - **Authentication and rate limiting:** No auth exists in the current build. Production would add session-based auth (e.g., NextAuth) and per-user rate limiting on the `/api/chat` endpoint.
 - **Observability:** Instrument with OpenTelemetry for tracing across the classifier → retrieval → generation → confidence chain. Langfuse or Braintrust for LLM-specific observability: prompt versions, token costs, confidence drift over time.
 - **Evaluation in CI/CD:** The eval runner is already callable via the API. A CI step that runs the golden dataset against a staging deployment and fails the build if answer correctness drops below a threshold would catch regressions before they reach production.
-- **Multi-turn retrieval:** Production helpdesks benefit from question rewriting — using conversation history to disambiguate follow-up questions before retrieval. This would require a rewrite step before embedding, and makes evaluation more complex (conversation-level rather than question-level ground truth).
+- **Multi-turn retrieval:** Production helpdesks benefit from question rewriting - using conversation history to disambiguate follow-up questions before retrieval. This would require a rewrite step before embedding, and makes evaluation more complex (conversation-level rather than question-level ground truth).
 
 ---
 
 ## Built By
 
-Tommy Ong — [GitHub](https://github.com/thetomtoro)
+Tommy Ong - [GitHub](https://github.com/thetomtoro)
